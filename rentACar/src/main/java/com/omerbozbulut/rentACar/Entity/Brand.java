@@ -21,11 +21,9 @@ public class Brand {
     private int brandID;
 
     @NotNull
+    @Column(length = 30)
     private String brandName;
 
-    @OneToMany(mappedBy="brand")
+    @OneToMany(mappedBy="modelID")
     private List<Model> modelList;
-
-    @OneToMany(mappedBy = "brand")
-    private List<Car> carList;
 }

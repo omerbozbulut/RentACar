@@ -22,7 +22,4 @@ public class Province {
 
     @NotNull
     private String provinceName;
-
-    @OneToMany(mappedBy = "province")
-    private List<Station> stationList;
 }

@@ -23,7 +23,4 @@ public class gearboxType {
 
     @NotNull
     private String nameOfGearboxType;
-
-    @OneToMany(mappedBy = "gearboxType")
-    private List<Car> carList;
 }

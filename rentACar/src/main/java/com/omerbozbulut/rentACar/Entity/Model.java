@@ -22,9 +22,4 @@ public class Model {
 
     @NotNull
     private String modelName;
-
-    @ManyToOne
-    @JoinColumn(name = "brandID")
-    private Brand brand;
-
 }

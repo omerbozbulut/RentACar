@@ -22,6 +22,4 @@ public class DrivingLicense {
     @NotNull
     private String drivingLicenseName;
 
-    @OneToMany(mappedBy = "drivingLicense")
-    private List<Customer> customerList;
 }
