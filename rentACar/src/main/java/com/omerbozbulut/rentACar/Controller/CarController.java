@@ -20,7 +20,6 @@ public class CarController {
 
     private final CarService carService;
 
-    @ResponseBody
     @GetMapping(value = "/cars")
     public ResponseEntity<List<Car>> getCars(){
         return new ResponseEntity<>(carService.getAllCar(), OK);

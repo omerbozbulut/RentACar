@@ -5,14 +5,14 @@ import Axios from "../Axios/Axios";
 import CarItem from "../components/UI/CarItem";
 
 function Home() {
-  const [carData, setCarData] = UseState([]);
+  const [cars, setCars] = UseState([]);
   const ALLCARS_URL = "/carController/cars";
 
   UseEffect(() => {
     Axios.get(ALLCARS_URL)
       .then(data => {
         console.log(data);
-        setCarData(data);
+        setCars(data);
       })
       .catch(error => {
         console.log(error);
@@ -29,8 +29,8 @@ function Home() {
               <h2 className="section__title">Offers</h2>
             </Col>
 
-            {carData.map(item => (
-              <CarItem item={item} key={item.id} />
+            {cars.map(item => (
+              <CarItem item={item} key={item.carID} />
             ))}
           </Row>
         </Container>
