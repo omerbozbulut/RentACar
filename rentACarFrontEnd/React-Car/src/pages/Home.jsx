@@ -1,18 +1,18 @@
-import React, { UseEffect, UseState } from "react";
+import React, { useEffect, useState } from "react";
 import Helmet from "../components/Helmet/Helmet";
 import { Container, Row, Col } from "reactstrap";
 import Axios from "../Axios/Axios";
 import CarItem from "../components/UI/CarItem";
 
 function Home() {
-  const [cars, setCars] = UseState([]);
+  const [cars, setCars] = useState([]);
   const ALLCARS_URL = "/carController/cars";
 
-  UseEffect(() => {
+  useEffect(() => {
     Axios.get(ALLCARS_URL)
       .then(data => {
-        console.log(data);
-        setCars(data);
+        console.log(data.data);
+        setCars(data.data);
       })
       .catch(error => {
         console.log(error);

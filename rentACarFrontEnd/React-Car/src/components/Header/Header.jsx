@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-
 import { Container } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";

@@ -62,6 +62,7 @@ function SignIn() {
             sm="12"
           >
             <Container className="bg-light border" fluid="sm">
+              <h3 className="text-center mt-3">Rent a car</h3>
               <Form onSubmit={HandleSubmit}>
                 <FormGroup className="m-5">
                   <Label for="exampleEmail">Email</Label>
@@ -84,7 +85,7 @@ function SignIn() {
                   />
                 </FormGroup>
                 <FormGroup className="text-center">
-                  <Button color="primary">Submit</Button>
+                  <Button color="primary">Login</Button>
                 </FormGroup>
               </Form>
             </Container>
