@@ -4,8 +4,10 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,13 +22,16 @@ public class Car {
     @NotNull
     private char numberPlate;
 
+    @NotNull
+    private float price;
+
     @OneToOne
     @JoinColumn(name = "vehicleClassID")
     private VehicleClass vehicleClass;
 
     @ManyToOne
-    @JoinColumn(name = "brandID")
-    private Brand brand;
+    @JoinColumn(name = "modelID")
+    private Model model;
 
     @ManyToOne
     @JoinColumn(name = "gearboxTypeID")
@@ -44,5 +49,6 @@ public class Car {
     @JoinColumn(name = "colorID")
     private Color color;
 
-    //private Date vehicleAge;
+    @Type(type="date")
+    private Date productionDate;
 }

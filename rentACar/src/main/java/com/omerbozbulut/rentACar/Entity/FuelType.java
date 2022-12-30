@@ -23,6 +23,6 @@ public class FuelType {
     private int fuelTypeID;
 
     @NotNull
-    private String nameOfFuelType;
+    private String fuelTypeName;
 
 }

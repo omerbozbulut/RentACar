@@ -1,10 +1,13 @@
 package com.omerbozbulut.rentACar.Entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -29,7 +32,12 @@ public class Renting {
     @JoinColumn(name = "stationID")
     private Station station;
 
-    //private Date purchaseDate;
+    @Type(type="date")
+    private Date purchaseDate;
 
-    //private Date dropOffDate;
+    @Type(type="date")
+    private Date dropOffDate;
+
+    @NotNull
+    private float totalPrice;
 }

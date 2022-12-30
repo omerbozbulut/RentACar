@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -22,4 +21,8 @@ public class Model {
 
     @NotNull
     private String modelName;
+
+    @ManyToOne
+    @JoinColumn(name = "brandID")
+    private Brand brand;
 }

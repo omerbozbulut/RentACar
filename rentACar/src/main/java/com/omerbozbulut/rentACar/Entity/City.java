@@ -13,12 +13,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="province")
-public class Province {
+@Table(name="city")
+public class City {
 
     @Id
     @GeneratedValue
-    private int provinceID;
+    private int cityID;
 
     @NotNull
     private String provinceName;

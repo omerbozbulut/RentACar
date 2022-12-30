@@ -4,8 +4,10 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -23,12 +25,13 @@ public class Customer {
     private long identityNumber;
 
     @NotNull
-    private String name;
+    private String customerName;
 
     @NotNull
     private String surname;
 
-    //private Date dateOfBirth;
+    @Type(type="date")
+    private Date dateOfBirth;
 
     @NotNull
     private String email;
@@ -36,7 +39,8 @@ public class Customer {
     @NotNull
     private String password;
 
-    //private Date dateOfRegistration;
+    @Type(type="date")
+    private Date dateOfRegistration;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "drivingLicenseID")

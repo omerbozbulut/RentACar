@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -23,7 +22,4 @@ public class Brand {
     @NotNull
     @Column(length = 30)
     private String brandName;
-
-    @OneToMany(mappedBy="modelID")
-    private List<Model> modelList;
 }

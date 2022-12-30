@@ -22,5 +22,5 @@ public class gearboxType {
     private int gearboxTypeID;
 
     @NotNull
-    private String nameOfGearboxType;
+    private String gearboxTypeName;
 }

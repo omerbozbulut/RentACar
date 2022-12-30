@@ -19,12 +19,13 @@ public class Station {
     @GeneratedValue
     private int stationID;
 
+    @NotNull
     private String stationName;
 
     @ManyToOne
-    @JoinColumn(name="provinceID")
-    private Province province;
+    @JoinColumn(name="cityID")
+    private City city;
 
     @NotNull
-    private String address;
+    private String addr;
 }
