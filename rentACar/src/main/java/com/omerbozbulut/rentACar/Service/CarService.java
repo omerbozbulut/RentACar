@@ -12,8 +12,19 @@ import java.util.List;
 public class CarService {
     private final CarDao carDao;
 
-    public List<Car> getAllCar() {
-        return carDao.getAllCar();
+    public List<Car> getAllCars() {
+        return carDao.getAllCars();
     }
 
+    public List<Car> getLowToHighCars() {
+        return carDao.getLowToHighCars();
+    }
+
+    public List<Car> getHighToLowCars() {
+        return carDao.getHighToLowCars();
+    }
+
+    public List<Car> searchCar(String name) {
+        return carDao.searchCar(name);
+    }
 }
