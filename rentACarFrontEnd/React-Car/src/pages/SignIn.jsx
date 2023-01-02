@@ -12,34 +12,38 @@ import {
 import Axios from "../Axios/Axios";
 import Home from "./Home";
 
-function SignIn() {
-  const [Customer, setCustomer] = useState({ email: String, password: String });
+export default function SignIn({ isLoggedIn, setIsLoggedIn, setUserType }) {
+  const [Customer, setCustomer] = useState();
 
   const HandleChange = e => {
     setCustomer({ ...Customer, [e.target.name]: e.target.value });
     console.log(Customer);
   };
 
-  const LOGIN_URL = "/customerController/authentication?email=";
-  const [success, setSuccess] = useState(false);
+  const CUSTOMER_LOGIN_URL = "/customerController/authentication?email=";
+  const ADMİN_LOGIN_URL = "/adminController/authentication?name=";
 
   const HandleSubmit = async e => {
     e.preventDefault();
-    Axios.get(LOGIN_URL + Customer.email, {
-      email: Customer.email,
-      password: Customer.password,
-    })
+    let LOGIN_URL;
+    if (Customer.email === "admin") {
+      LOGIN_URL = ADMİN_LOGIN_URL;
+    } else {
+      LOGIN_URL = CUSTOMER_LOGIN_URL;
+    }
+
+    Axios.get(LOGIN_URL + Customer.email)
       .then(result => {
-        if (result.status === 200) {
-          if (result.data.password === Customer.password) {
-            setSuccess(true);
+        if (result.data.password === Customer.password) {
+          if (result.data.name === "admin") {
+            setIsLoggedIn(true);
+            setUserType("admin");
           } else {
-            alert("Wrong password");
+            setUserType("customer");
+            setIsLoggedIn(true);
           }
-        } else if (result.status === 404) {
-          alert("NOT FOUND");
-        } else if (result.status === 500) {
-          alert("SERVER ERROR");
+        } else {
+          alert("Wrong password");
         }
       })
       .catch(error => {
@@ -50,7 +54,7 @@ function SignIn() {
 
   return (
     <>
-      {success ? (
+      {isLoggedIn ? (
         <Home />
       ) : (
         <Row>
@@ -70,7 +74,7 @@ function SignIn() {
                     id="exampleEmail"
                     name="email"
                     placeholder="Email"
-                    type="email"
+                    type="text"
                     onChange={HandleChange}
                   />
                 </FormGroup>
@@ -95,5 +99,3 @@ function SignIn() {
     </>
   );
 }
-
-export default SignIn;
