@@ -5,7 +5,6 @@ import com.omerbozbulut.rentACar.Service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import static org.springframework.http.HttpStatus.OK;
 
 @CrossOrigin // localhost 8080 ve 3000 farkı için izin ver
