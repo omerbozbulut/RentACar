@@ -19,6 +19,7 @@ import Axios from "../Axios/Axios";
 
 function CarListing() {
   const [carData, setCarData] = useState([]);
+  const [vehicleClasses, setVehicleClasses] = useState([]);
   const [searchCarName, setSearchCarName] = useState("");
   const ALL_CARS_URL = "/carController/cars";
   const LOW_TO_HIGH_URL = "/carController/lowtohighcars";
@@ -30,11 +31,23 @@ function CarListing() {
   const toggleSort = () => setSortDropDownOpen(prevState => !prevState);
   const toggleClass = () => setClassDropDownOpen(prevState => !prevState);
 
-  useEffect(() => {
+  const getAllCars = () => {
     Axios.get(ALL_CARS_URL)
       .then(data => {
         console.log(data.data);
         setCarData(data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getAllCars();
+
+    Axios.get("/vehicleClassController/vehicleClasses")
+      .then(result => {
+        setVehicleClasses(result.data);
       })
       .catch(error => {
         console.log(error);
@@ -110,9 +123,27 @@ function CarListing() {
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem header>Vehicle Classes</DropdownItem>
-                      <DropdownItem>Sedan</DropdownItem>
-                      <DropdownItem>SUV</DropdownItem>
-                      <DropdownItem>Hatchback</DropdownItem>
+                      <DropdownItem onClick={getAllCars}>All</DropdownItem>
+                      {vehicleClasses.map(item => (
+                        <DropdownItem
+                          key={item.vehicleClassID}
+                          onClick={function getCarWithClass() {
+                            Axios.get(
+                              "/carController/getByVehicleClass?className=" +
+                                item.nameOfVehicleClass
+                            )
+                              .then(data => {
+                                console.log(data.data);
+                                setCarData(data.data);
+                              })
+                              .catch(error => {
+                                console.log(error);
+                              });
+                          }}
+                        >
+                          {item.nameOfVehicleClass}
+                        </DropdownItem>
+                      ))}
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
