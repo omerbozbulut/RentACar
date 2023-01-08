@@ -1,5 +1,6 @@
 package com.omerbozbulut.rentACar.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class Customer {
     private String surname;
 
     @Type(type="date")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date dateOfBirth;
 
     @NotNull
@@ -40,6 +42,7 @@ public class Customer {
     private String password;
 
     @Type(type="date")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date dateOfRegistration;
 
     @ManyToOne(cascade = CascadeType.ALL)

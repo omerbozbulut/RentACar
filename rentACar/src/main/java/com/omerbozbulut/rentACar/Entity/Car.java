@@ -1,5 +1,6 @@
 package com.omerbozbulut.rentACar.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,11 +17,11 @@ import java.util.Date;
 @Table(name="car")
 public class Car {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int carID;
 
     @NotNull
-    private char numberPlate;
+    private String numberPlate;
 
     @NotNull
     private float price;
@@ -50,5 +51,6 @@ public class Car {
     private Color color;
 
     @Type(type="date")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date productionDate;
 }
