@@ -3,14 +3,11 @@ package com.omerbozbulut.rentACar.Service;
 import com.omerbozbulut.rentACar.Entity.Car;
 import com.omerbozbulut.rentACar.Repository.*;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-import static org.springframework.http.HttpStatus.OK;
 
 @Service
 @AllArgsConstructor
@@ -20,7 +17,7 @@ public class CarService {
     private final VehicleClassDao vehicleClassDao;
     private final FuelTypeDao fuelTypeDao;
     private final GearboxTypeDao gearboxTypeDao;
-    private final ModelDao modelDao;
+    private ModelDao modelDao;
     private final StationDao stationDao;
 
     public List<Car> getAllCars() {
@@ -41,6 +38,12 @@ public class CarService {
         }
         return carDao.searchCar(name);
     }
+
+    public List<Car> getCarByVehiclClass(String vehicleClassName){
+        int vehicleClassID = vehicleClassDao.getByNameOfVehicleClass(vehicleClassName).getVehicleClassID();
+        return carDao.getCarsByVehicleClass(vehicleClassID);
+    }
+
 
     public int createCar(Car car) {
         String numberPlate = car.getNumberPlate();
