@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface GearboxTypeDao extends JpaRepository<gearboxType, Integer> {
-    @Query(name = "SELECT * FROM gearboxType WHERE gearboxTypeName = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM gearboxType WHERE gearboxTypeName = ?1", nativeQuery = true)
     gearboxType getByGearboxTypeName(@Param("gearboxTypeName") String gearboxTypeName);
 }

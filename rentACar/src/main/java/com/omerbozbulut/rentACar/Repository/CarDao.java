@@ -21,6 +21,8 @@ public interface CarDao extends JpaRepository<Car, Integer> {
     @Query(value = "SELECT * From car ORDER BY price DESC", nativeQuery = true)
     List<Car> getHighToLowCars();
 
+    @Query(value = "SELECT * FROM car WHERE vehicleClassID = ?1", nativeQuery = true)
+    List<Car> getCarsByVehicleClass(@Param("vehicleClassID") int vehicleClassID);
 
     @Query(value = "{CALL carSearch(:kriter)}", nativeQuery = true)
     List<Car> searchCar(@Param("kriter") String kriter);
