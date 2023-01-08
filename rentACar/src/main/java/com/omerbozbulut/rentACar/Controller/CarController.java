@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.rmi.ServerException;
 import java.util.List;
-import java.util.Objects;
 import static org.springframework.http.HttpStatus.OK;
 
 
@@ -40,6 +39,11 @@ public class CarController {
     @GetMapping("/searchcar")
     public ResponseEntity<List<Car>> searchCar(@RequestParam() String name){
         return new ResponseEntity<>(carService.searchCar(name), OK);
+    }
+
+    @GetMapping(value = "/getByVehicleClass")
+    public ResponseEntity<List<Car>> getCarsByVehicleClass(@RequestParam String className){
+        return new ResponseEntity<>(carService.getCarByVehiclClass(className), OK);
     }
 
     @PostMapping("/createCar")
