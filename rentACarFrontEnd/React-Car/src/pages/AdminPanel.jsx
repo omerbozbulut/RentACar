@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useState, useEffect } from "react";
 import {
   Container,
   Alert,
@@ -13,6 +13,8 @@ import {
 import Axios from "../Axios/Axios";
 
 function AdminPanel() {
+  const [models, setModels] = useState([]);
+  const [stations, setStations] = useState([]);
   const handleSubmit = e => {
     let regex = new RegExp(
       /^[0-9]{2}[\\ -]{0, 1}[A-Z]{1, 2}[\\ -]{0, 1}[0-9]{4}$/
@@ -60,6 +62,24 @@ function AdminPanel() {
       });
     }
   };
+
+  useEffect(() => {
+    Axios.get("/modelController/models")
+      .then(result => {
+        setModels(result.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    Axios.get("/stationController/stations")
+      .then(result => {
+        setStations(result.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -156,14 +176,9 @@ function AdminPanel() {
                   <FormGroup>
                     <Label for="modelName">Model</Label>
                     <Input id="modelName" name="modelName" type="select">
-                      <option>520</option>
-                      <option>Maybach</option>
-                      <option>A180</option>
-                      <option>Fluence</option>
-                      <option>Amarok</option>
-                      <option>Superb</option>
-                      <option>Leon</option>
-                      <option>308</option>
+                      {models.map(model => (
+                        <option>{model.modelName}</option>
+                      ))}
                     </Input>
                   </FormGroup>
                 </Col>
@@ -173,14 +188,9 @@ function AdminPanel() {
                   <FormGroup>
                     <Label for="station">Station</Label>
                     <Input id="stationName" name="stationName" type="select">
-                      <option>Beylikdüzü Bayisi</option>
-                      <option>Kadiköy Bayisi</option>
-                      <option>Buca Bayisi</option>
-                      <option>Alsancak Bayisi</option>
-                      <option>Kizilay Bayisi</option>
-                      <option>Iznik Bayisi</option>
-                      <option>Cumayeri Bayisi</option>
-                      <option>Inegöl Bayisi</option>
+                      {stations.map(station => (
+                        <option>{station.stationName}</option>
+                      ))}
                     </Input>
                   </FormGroup>
                 </Col>
