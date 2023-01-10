@@ -27,21 +27,34 @@ function AdminPanel() {
   };
 
   const addAdmin = e => {
-    e.preventDefault();
-    console.log(e.target);
-    Axios.request(
-      "/adminController/addAdmin?name=" +
-        e.target.Name.value +
-        "&password=" +
-        e.target.password.value
-    )
-      .then(result => {
-        console.log(result);
-        e.target.reset();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    let regex = new RegExp(
+      /^[0-9]{2}[\\ -]{0, 1}[A-Z]{1, 2}[\\ -]{0, 1}[0-9]{4}$/
+    );
+    if (
+      e.target.numberPlate.value === "" ||
+      e.target.price.value === "" ||
+      e.target.productionDate.value === ""
+    ) {
+      Alert("Please fill in all fields");
+    } else if (!regex.test(e.target.numberPlate.value)) {
+      Alert("Please enter a valid number plate");
+    } else {
+      e.preventDefault();
+      Axios.request(
+        "/adminController/addAdmin?name=" +
+          e.target.Name.value +
+          "&password=" +
+          e.target.password.value
+      )
+        .then(result => {
+          console.log(result);
+          e.target.reset();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+    e.target.reset();
   };
 
   const deleteCustomer = e => {
@@ -56,52 +69,38 @@ function AdminPanel() {
       });
   };
 
-  const handleSubmit = e => {
-    let regex = new RegExp(
-      /^[0-9]{2}[\\ -]{0, 1}[A-Z]{1, 2}[\\ -]{0, 1}[0-9]{4}$/
-    );
-    if (
-      e.target.numberPlate.value === "" ||
-      e.target.price.value === "" ||
-      e.target.productionDate.value === ""
-    ) {
-      Alert("Please fill in all fields");
-    } else if (!regex.test(e.target.numberPlate.value)) {
-      Alert("Please enter a valid number plate");
-    } else {
-      e.preventDefault();
-      const data = JSON.stringify({
-        numberPlate: e.target.numberPlate.value,
-        price: e.target.price.value,
-        vehicleClass: {
-          nameOfVehicleClass: e.target.nameOfVehicleClass.value,
-        },
-        model: {
-          modelName: e.target.modelName.value,
-        },
-        gearboxType: {
-          gearboxTypeName: e.target.gearboxTypeName.value,
-        },
-        fuelType: {
-          fuelTypeName: e.target.fuelTypeName.value,
-        },
-        station: {
-          stationName: e.target.stationName.value,
-        },
-        color: {
-          colorName: e.target.colorName.value,
-        },
-        productionDate: e.target.productionDate.value,
-      });
-      console.log(data);
-      Axios.post("/carController/createCar", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).catch(error => {
-        console.log(error);
-      });
-    }
+  const saveCar = e => {
+    e.preventDefault();
+    const data = JSON.stringify({
+      numberPlate: e.target.numberPlate.value,
+      price: e.target.price.value,
+      vehicleClass: {
+        nameOfVehicleClass: e.target.nameOfVehicleClass.value,
+      },
+      model: {
+        modelName: e.target.modelName.value,
+      },
+      gearboxType: {
+        gearboxTypeName: e.target.gearboxTypeName.value,
+      },
+      fuelType: {
+        fuelTypeName: e.target.fuelTypeName.value,
+      },
+      station: {
+        stationName: e.target.stationName.value,
+      },
+      color: {
+        colorName: e.target.colorName.value,
+      },
+      productionDate: e.target.productionDate.value,
+    });
+    Axios.post("/carController/createCar", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch(error => {
+      console.log(error);
+    });
   };
 
   useEffect(() => {
@@ -128,7 +127,7 @@ function AdminPanel() {
         <div>
           <Container>
             <div className="m-5 border bg-light">
-              <Form className="m-2" onSubmit={handleSubmit}>
+              <Form className="m-2" onSubmit={saveCar}>
                 <Row>
                   <h3>Add New Car</h3>
                   <Col md={6}>
@@ -223,7 +222,7 @@ function AdminPanel() {
                       <Label for="modelName">Model</Label>
                       <Input id="modelName" name="modelName" type="select">
                         {models.map(model => (
-                          <option>{model.modelName}</option>
+                          <option key={model.modelID}>{model.modelName}</option>
                         ))}
                       </Input>
                     </FormGroup>
@@ -235,7 +234,9 @@ function AdminPanel() {
                       <Label for="station">Station</Label>
                       <Input id="stationName" name="stationName" type="select">
                         {stations.map(station => (
-                          <option>{station.stationName}</option>
+                          <option key={station.stationID}>
+                            {station.stationName}
+                          </option>
                         ))}
                       </Input>
                     </FormGroup>
@@ -256,7 +257,7 @@ function AdminPanel() {
                 </Row>
                 <FormGroup className="text-center">
                   <Button color="primary" type="submit">
-                    Sign in
+                    Save
                   </Button>
                 </FormGroup>
               </Form>
@@ -345,5 +346,4 @@ function AdminPanel() {
     </>
   );
 }
-
 export default AdminPanel;

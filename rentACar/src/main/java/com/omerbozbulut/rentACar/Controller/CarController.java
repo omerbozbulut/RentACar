@@ -41,12 +41,12 @@ public class CarController {
         return new ResponseEntity<>(carService.searchCar(name), OK);
     }
 
-    @GetMapping(value = "/getByVehicleClass")
+    @GetMapping("/getByVehicleClass")
     public ResponseEntity<List<Car>> getCarsByVehicleClass(@RequestParam String className){
         return new ResponseEntity<>(carService.getCarByVehiclClass(className), OK);
     }
 
-    @PostMapping("/createCar")
+    @PostMapping(value = "/createCar")
     public ResponseEntity<Car> createCar(@RequestBody Car car) throws ServerException {
         int resultCar = carService.createCar(car);
         if (resultCar == 0) {
