@@ -2,8 +2,9 @@ import React, { useRef, useContext } from "react";
 import { Container } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
+import { reactLocalStorage } from "reactjs-localstorage";
 
-export default function Header({ userType }) {
+export default function Header() {
   const navLinks = [
     {
       path: "/home",
@@ -13,7 +14,7 @@ export default function Header({ userType }) {
       path: "/cars",
       display: "Cars",
     },
-    userType === "admin"
+    reactLocalStorage.get("adminLogin")
       ? {
           path: "/admin",
           display: "Admin",

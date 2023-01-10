@@ -10,9 +10,10 @@ import {
   Col,
 } from "reactstrap";
 import Axios from "../Axios/Axios";
+import { reactLocalStorage } from "reactjs-localstorage";
 import Home from "./Home";
 
-export default function SignIn({ isLoggedIn, setIsLoggedIn, setUserType }) {
+export default function SignIn() {
   const [Customer, setCustomer] = useState();
 
   const HandleChange = e => {
@@ -26,7 +27,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn, setUserType }) {
   const HandleSubmit = async e => {
     e.preventDefault();
     let LOGIN_URL;
-    if (Customer.email === "admin") {
+    if (Customer.email.charAt(0) === "$") {
       LOGIN_URL = ADMİN_LOGIN_URL;
     } else {
       LOGIN_URL = CUSTOMER_LOGIN_URL;
@@ -35,12 +36,16 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn, setUserType }) {
     Axios.get(LOGIN_URL + Customer.email)
       .then(result => {
         if (result.data.password === Customer.password) {
-          if (result.data.name === "admin") {
-            setIsLoggedIn(true);
-            setUserType("admin");
+          if (result.data.name.charAt(0) === "$") {
+            reactLocalStorage.set("isLoggedIn", true);
+            reactLocalStorage.set("adminLogin", true);
+            setCustomer();
+            window.location.reload();
           } else {
-            setUserType("customer");
-            setIsLoggedIn(true);
+            reactLocalStorage.set("adminLogin", false);
+            reactLocalStorage.set("isLoggedIn", true);
+            setCustomer();
+            window.location.reload();
           }
         } else {
           alert("Wrong password");
@@ -54,7 +59,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn, setUserType }) {
 
   return (
     <>
-      {isLoggedIn ? (
+      {reactLocalStorage.get("isLoggedIn") ? (
         <Home />
       ) : (
         <Row>
@@ -89,7 +94,9 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn, setUserType }) {
                   />
                 </FormGroup>
                 <FormGroup className="text-center">
-                  <Button color="primary">Login</Button>
+                  <Button color="primary" type="submit">
+                    Login
+                  </Button>
                 </FormGroup>
               </Form>
             </Container>
