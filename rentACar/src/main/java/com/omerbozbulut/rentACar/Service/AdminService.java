@@ -12,6 +12,12 @@ public class AdminService {
     private final AdminDao adminDao;
 
     public Admin authentication (String name) {
+        System.out.println(name);
         return adminDao.findByName(name);
+    }
+
+    public void addAdmin(String name, String password) {
+        String newName = "$"+name;
+        adminDao.addAdmin(newName,password);
     }
 }

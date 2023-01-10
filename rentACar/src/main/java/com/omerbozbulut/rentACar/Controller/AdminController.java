@@ -18,6 +18,13 @@ public class AdminController {
 
     @GetMapping("/authentication")
     private ResponseEntity<Admin> Authentication(@RequestParam String name){
+        System.out.println(name);
         return new ResponseEntity<>(adminService.authentication(name),OK);
+    }
+
+    @GetMapping("/addAdmin")
+    private ResponseEntity<Void> addAdmin(@RequestParam String name, @RequestParam String password){
+        adminService.addAdmin(name, password);
+        return new ResponseEntity<>(OK);
     }
 }
