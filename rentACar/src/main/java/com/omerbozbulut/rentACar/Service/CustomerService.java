@@ -13,4 +13,8 @@ public class CustomerService {
     public Customer authentication (String email) {
         return customerDao.findByEmail(email);
     }
+
+    public void deleteCustomer(int id){
+        customerDao.deleteCustomerWithIdentity(id);
+    }
 }

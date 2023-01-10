@@ -20,4 +20,10 @@ public class CustomerController {
     public ResponseEntity<Customer> Authentication(@RequestParam() String email){
         return new ResponseEntity<>(customerService.authentication(email), OK);
     }
+
+    @GetMapping("/delete")
+    public ResponseEntity<Void> DeleteCustomer(@RequestParam() int id){
+        customerService.deleteCustomer(id);
+        return new ResponseEntity<>(OK);
+    }
 }

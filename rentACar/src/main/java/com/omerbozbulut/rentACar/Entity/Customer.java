@@ -1,6 +1,7 @@
 package com.omerbozbulut.rentACar.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class Customer {
 
     @NotNull
     @Column(length = 11)
-    private long identityNumber;
+    private String identityNumber;
 
     @NotNull
     private String customerName;
@@ -39,13 +41,16 @@ public class Customer {
     private String email;
 
     @NotNull
-    private String password;
+    private String passwordd;
 
     @Type(type="date")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date dateOfRegistration;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "drivingLicenseID")
     private DrivingLicense drivingLicense;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="customer")
+    private List<Renting> rentingList;
 }
