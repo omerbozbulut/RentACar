@@ -15,13 +15,13 @@ public interface CarDao extends JpaRepository<Car, Integer> {
     @Query(value = "SELECT * From car", nativeQuery = true)
     List<Car> getAllCars();
 
-    @Query(value = "SELECT * From car ORDER BY price", nativeQuery = true)
+    @Query(value = "{CALL lowToHigh()}", nativeQuery = true)
     List<Car> getLowToHighCars();
 
-    @Query(value = "SELECT * From car ORDER BY price DESC", nativeQuery = true)
+    @Query(value = "{CALL HighToLow()}", nativeQuery = true)
     List<Car> getHighToLowCars();
 
-    @Query(value = "SELECT * FROM car WHERE vehicleClassID = ?1", nativeQuery = true)
+    @Query(value = "{CALL getByVehicleClass(:vehicleClassID)}", nativeQuery = true)
     List<Car> getCarsByVehicleClass(@Param("vehicleClassID") int vehicleClassID);
 
     @Query(value = "{CALL carSearch(:kriter)}", nativeQuery = true)
