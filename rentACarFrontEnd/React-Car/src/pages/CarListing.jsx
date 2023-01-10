@@ -16,6 +16,7 @@ import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
 import CarItem from "../components/UI/CarItem";
 import Axios from "../Axios/Axios";
+import { CSVLink } from "react-csv";
 
 function CarListing() {
   const [carData, setCarData] = useState([]);
@@ -31,15 +32,47 @@ function CarListing() {
   const toggleSort = () => setSortDropDownOpen(prevState => !prevState);
   const toggleClass = () => setClassDropDownOpen(prevState => !prevState);
 
+  const [expCarData, setExpCarData] = useState([]);
+
   const getAllCars = () => {
     Axios.get(ALL_CARS_URL)
       .then(data => {
         console.log(data.data);
         setCarData(data.data);
+        mapData(data);
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const mapData = data => {
+    const convertedData = data.data.map(item => {
+      return {
+        carID: item.carID,
+        numberPlate: item.numberPlate,
+        price: item.price,
+        vehicleClassID: item.vehicleClass.vehicleClassID,
+        nameOfVehicleClass: item.vehicleClass.nameOfVehicleClass,
+        modelID: item.model.modelID,
+        modelName: item.model.modelName,
+        brandID: item.model.brand.brandID,
+        brandName: item.model.brand.brandName,
+        gearboxTypeID: item.gearboxType.gearboxTypeID,
+        gearboxTypeName: item.gearboxType.gearboxTypeName,
+        fuelTypeID: item.fuelType.fuelTypeID,
+        fuelTypeName: item.fuelType.fuelTypeName,
+        stationID: item.station.stationID,
+        stationName: item.station.stationName,
+        cityID: item.station.city.cityID,
+        provinceName: item.station.city.provinceName,
+        addr: item.station.addr,
+        colorID: item.color.colorID,
+        colorName: item.color.colorName,
+        productionDate: item.productionDate,
+      };
+    });
+    setExpCarData(convertedData);
   };
 
   useEffect(() => {
@@ -48,6 +81,7 @@ function CarListing() {
     Axios.get("/vehicleClassController/vehicleClasses")
       .then(result => {
         setVehicleClasses(result.data);
+        mapData(result);
       })
       .catch(error => {
         console.log(error);
@@ -97,6 +131,7 @@ function CarListing() {
                             .then(data => {
                               console.log(data.data);
                               setCarData(data.data);
+                              mapData(data);
                             })
                             .catch(error => {
                               console.log(error);
@@ -135,6 +170,7 @@ function CarListing() {
                               .then(data => {
                                 console.log(data.data);
                                 setCarData(data.data);
+                                mapData(data);
                               })
                               .catch(error => {
                                 console.log(error);
@@ -147,7 +183,15 @@ function CarListing() {
                     </DropdownMenu>
                   </Dropdown>
                 </Col>
-                <Col></Col>
+                <Col>
+                  <CSVLink
+                    data={expCarData}
+                    filename="CarData"
+                    className="btn btn-success mb-3"
+                  >
+                    Export Car Data
+                  </CSVLink>
+                </Col>
                 <Col>
                   <Form className="d-flex">
                     <FormGroup row>
@@ -168,6 +212,7 @@ function CarListing() {
                                 console.log(data.data);
                                 setCarData(data.data);
                                 setSearchCarName("");
+                                mapData(data);
                               })
                               .catch(error => {
                                 console.log(error);
